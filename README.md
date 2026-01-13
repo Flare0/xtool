@@ -158,6 +158,77 @@ actions:
 mode: single
 ```
 
+
+##  M1 Ultra
+### Entities card
+```yaml
+type: entities
+entities:
+  - entity: binary_sensor.devicename_m1ultra_power
+  - entity: sensor.devicename_m1ultra_status
+  - type: section
+    label: Tools
+  - entity: sensor.devicename_m1ultra_basic_carriage
+  - entity: sensor.devicename_m1ultra_multi_function_carriage
+  - entity: binary_sensor.devicename_m1ultra_multi_function_carriage_lock
+  - entity: sensor.devicename_m1ultra_multi_function_module_tool
+  - entity: binary_sensor.devicename_m1ultra_ink_module_cable
+  - entity: button.devicename_sync_multi_function_module
+  - type: section
+    label: Accessories
+  - entity: binary_sensor.devicename_m1ultra_electrostatic_mat
+  - entity: binary_sensor.devicename_m1ultra_electrostatic_mat_static
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_raiser
+  - entity: binary_sensor.devicename_m1ultra_hatch
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_exhaust_fan
+  - entity: binary_sensor.devicename_m1ultra_exhaust_fan_state
+  - entity: sensor.devicename_m1ultra_exhaust_fan_level
+  - entity: sensor.devicename_m1ultra_exhaust_fan_current
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_external_purifier
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_air_assist
+  - entity: sensor.devicename_m1ultra_airassist_level
+  - type: section
+    label: States
+  - entity: binary_sensor.devicename_m1ultra_baseplate
+  - entity: binary_sensor.devicename_m1ultra_lid
+  - entity: sensor.devicename_m1ultra_fill_light_brightness
+  - entity: binary_sensor.devicename_m1ultra_usb_machine_lock
+  - type: section
+    label: Time
+  - entity: sensor.devicename_m1ultra_operating_times_offline
+  - entity: sensor.devicename_m1ultra_operating_times_online
+  - entity: sensor.devicename_m1ultra_operating_time
+  - entity: sensor.devicename_m1ultra_standby_time
+  - type: section
+    label: Info
+  - entity: sensor.devicename_m1ultra_wifi_ip_address
+  - entity: sensor.devicename_m1ultra_mac_address
+  - entity: sensor.devicename_m1ultra_serial_number
+  - entity: sensor.devicename_m1ultra_position_x
+  - entity: sensor.devicename_m1ultra_position_y
+  - entity: sensor.devicename_m1ultra_cpu_temp
+  - entity: sensor.devicename_m1ultra_z_ntc_temp
+title: XTool M1 Ultra
+```
+
+Replace "devicename" with the name of your device.
+
+
+### Status modes
+```yaml
+"P_IDLE": "Idle"
+"P_MEASURE": "Auto Measure/Marking"
+"P_SLEEP": "Sleep"
+"WORK_WORKREADY": "Pending Start"
+"WORK_WORKING": "Working"
+"WORK_WORKPAUSE": "Work Paused"
+```
+
+
 ## Support My Work
 If you enjoy my projects or find them useful, consider supporting me on [Ko-fi](https://ko-fi.com/bassxt)!
 

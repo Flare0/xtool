@@ -1,6 +1,6 @@
 DOMAIN = "xtool"
 
-PLATFORMS: list[str] = ["sensor", "binary_sensor", "camera"]
+PLATFORMS: list[str] = ["sensor", "binary_sensor", "camera", "button"]
 
 CONF_IP_ADDRESS = "ip_address"
 CONF_DEVICE_TYPE = "device_type"
@@ -11,6 +11,7 @@ SUPPORTED_DEVICE_TYPES: dict[str, str] = {
     "f1": "F1",
     "m1": "M1",
     "apparel": "Apparel Printer",
+    "m1ultra": "M1 Ultra",
 }
 
 MANUFACTURER = "xTool"
