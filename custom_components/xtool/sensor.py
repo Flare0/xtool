@@ -145,19 +145,12 @@ class XToolWorkStateSensor(_XToolBaseSensor):
         # M1 Ultra modes based on the provided data
         mapping = {
             "P_IDLE": "Idle",
-            "P_MEASURE": "Auto Measure/Marking",
+            "P_MEASURE": "Probing",
             "P_SLEEP": "Sleep",
-            "WORK_WORKREADY": "Pending Start",
-            "WORK_WORKING": "Working",
-            "WORK_WORKPAUSE": "Work Paused",
+            "WORK_WORKREADY": "Ready",
+            "WORK_WORKING": "Running",
+            "WORK_WORKPAUSE": "Paused",
 
-        # Have not seen these, but included just in case
-            "P_WORKING": "Working",
-            "P_WORK_DONE": "Work Done",
-            "P_PAUSE": "Paused",
-            "P_ERROR": "Error",
-            "P_ABORT": "Aborted",
-            "P_UPLOAD": "Uploading",
         }
         if sub_mode:
             return f"{mapping.get(mode, mode)}_{sub_mode}" if mode else sub_mode

@@ -43,7 +43,7 @@ This is a **custom integration for Home Assistant** that connects and monitors *
 3. Enter:
    - **Name** → freely chosen (e.g. `Laser1`)
    - **IP Address** → IP of your xTool device
-   - **Device Type** → choose between `P2`, `F1`, `M1`, or `Apparel`
+   - **Device Type** → choose between `P2`, `F1`, `M1`,`M1 Ultra`, or `Apparel`
 4. Confirm — done ✅  
 
 Each device automatically creates the appropriate entities in Home Assistant based on its **`name`** and **`device_type`**.
@@ -64,15 +64,16 @@ Entity IDs are automatically generated using the **Name** and **Device Type** yo
 
 ## 💬 Possible Status Values
 
-| Status | Meaning |
-|---------|----------|
-| `Running` | The laser is currently engraving |
-| `Done` | The engraving job is finished |
-| `Idle` | The machine is idle |
-| `Sleep` | The device is in sleep mode |
-| `Ready` | (M1 only) machine ready for work |
-| `Unavailable` | Device offline or unreachable |
-| `Unknown` | Unknown or invalid response |
+| Status | Meaning | Device |
+|---------|----------|----------|
+| `Running` | The laser is currently engraving | `All` |
+| `Done` | The engraving job is finished | `P2` `F1` `M1` `Apparel` |
+| `Idle` | The machine is idle | `All` |
+| `Sleep` | The device is in sleep mode | `All` |
+| `Ready` | Machine ready for work | `M1` `M1 Ultra` |
+| `Probing` | Auto Measure or Marking | `M1 Ultra` |
+| `Unavailable` | Device offline or unreachable |  |
+| `Unknown` | Unknown or invalid response |  |
 
 ---
 
@@ -218,15 +219,12 @@ title: XTool M1 Ultra
 Replace "devicename" with the name of your device.
 
 
-### Status modes
-```yaml
-"P_IDLE": "Idle"
-"P_MEASURE": "Auto Measure/Marking"
-"P_SLEEP": "Sleep"
-"WORK_WORKREADY": "Pending Start"
-"WORK_WORKING": "Working"
-"WORK_WORKPAUSE": "Work Paused"
-```
+
+### Missing for M1 Ultra
+- Some info for External Purifier
+- RA2 states, Seems to not monitor if plugged in or not
+- Workhead ID for 20W Laser
+
 
 
 ## Support My Work
