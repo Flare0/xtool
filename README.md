@@ -18,7 +18,7 @@ This is a **custom integration for Home Assistant** that connects and monitors *
     - `sensor.<name>_m1_cpu_temp`
     - `sensor.<name>_m1_water_temp`
     - `sensor.<name>_m1_purifier`
-- Typical status values: `Running`, `Done`, `Idle`, `Sleep`, `Ready`, `Unavailable`, `Unknown`
+- Typical status values: `Running`, `Done`, `Idle`, `Sleep`, `Ready`, `Probing`, `Unavailable`, `Unknown`
 
 ---
 

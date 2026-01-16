@@ -654,3 +654,24 @@ class XToolM1UltraFillLightSensor(_M1UltraBaseMeasurement):
             return None
         # Convert 0-255 to 0-100%
         return round((brightness / 255) * 100)
+
+
+class XToolM1UltraRawStatusSensor(_M1UltraBase):
+    _attr_icon = "mdi:identifier"
+
+    def __init__(self, coordinator: XToolCoordinator, name: str, entry_id: str) -> None:
+        super().__init__(coordinator, name, entry_id)
+        self._attr_name = "Raw Status"
+        self._attr_unique_id = f"{entry_id}_raw_status"
+
+    @property
+    def suggested_object_id(self) -> str:
+        return f"{self.coordinator.device_type}_raw_status"
+    @property
+    def native_value(self) -> Any:
+        data = self.coordinator.data or {}
+        if data.get("_unavailable") or not data.get("runningStatus"):
+            return None
+        mode = str(data["runningStatus"]["curMode"].get("mode", "")).strip().upper()
+        sub_mode = str(data["runningStatus"]["curMode"].get("subMode", "")).strip().upper()
+        return mode + "_" + sub_mode
