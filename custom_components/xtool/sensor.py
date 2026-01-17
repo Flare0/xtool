@@ -291,7 +291,7 @@ class XToolM1UltraDrivedToolSensor(_M1UltraBase):
             43: "Fine-Point Blade",
             44: "Hot Foil Pen",
         }
-        return mapping.get(tool_id, "Unknown")
+        return mapping.get(tool_id, f"Unknown {tool_id}")
 
 
 class XToolM1UltraDrivingToolSensor(_M1UltraBase):
@@ -318,7 +318,7 @@ class XToolM1UltraDrivingToolSensor(_M1UltraBase):
             29: "Multi-function Module",
             31: "Ink Module",
         }
-        return mapping.get(tool_id, "Unknown")
+        return mapping.get(tool_id, f"Unknown {tool_id}")
 
 
 class XToolM1UltraKnifeHeadDrivingSensor(_M1UltraBase):
@@ -357,7 +357,7 @@ class XToolM1UltraKnifeHeadDrivingSensor(_M1UltraBase):
              23: "Cutting Blade",
              24: "Rotary Blade",
         }
-        return mapping.get(tool_id, "Unknown")
+        return mapping.get(tool_id, f"Unknown {tool_id}")
 
 
 class XToolM1UltraWorkingInfoOnlineWorkingSensor(_M1UltraBase):
