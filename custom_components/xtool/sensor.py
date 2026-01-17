@@ -59,6 +59,7 @@ async def async_setup_entry(
             XToolM1UltraSerialNrSensor(coordinator, name, entry_id),
             XToolM1UltraFillLightSensor(coordinator, name, entry_id),
             XToolM1UltraSmokingFanLevelSensor(coordinator, name, entry_id),
+            XToolM1UltraRawStatusSensor(coordinator, name, entry_id),
         ]
 
     async_add_entities(entities, True)
@@ -121,8 +122,10 @@ class XToolWorkStateSensor(_XToolBaseSensor):
             if data.get("runningStatus") and data["runningStatus"].get("curMode"):
                 mode = str(data["runningStatus"]["curMode"].get("mode", "")).strip().upper()
                 sub_mode = str(data["runningStatus"]["curMode"].get("subMode", "")).strip().upper()
-                if mode or sub_mode:
-                    return self._map_m1ultra_mode(mode, sub_mode)
+                if sub_mode:
+                    return self._map_m1ultra_mode(mode + "_" + sub_mode)
+                else:
+                    return self._map_m1ultra_mode(mode)
             return "Unknown"
 
         return "Unknown"
@@ -141,7 +144,7 @@ class XToolWorkStateSensor(_XToolBaseSensor):
         }
         return mapping.get(status, "Unknown")
 
-    def _map_m1ultra_mode(self, mode: str, sub_mode: str) -> str:
+    def _map_m1ultra_mode(self, mode: str) -> str:
         # M1 Ultra modes based on the provided data
         mapping = {
             "P_IDLE": "Idle",
@@ -152,8 +155,7 @@ class XToolWorkStateSensor(_XToolBaseSensor):
             "WORK_WORKPAUSE": "Paused",
 
         }
-        if sub_mode:
-            return f"{mapping.get(mode, mode)}_{sub_mode}" if mode else sub_mode
+
         return mapping.get(mode, mode) if mode else "Unknown"
 
 
