@@ -59,7 +59,6 @@ async def async_setup_entry(
             XToolM1UltraSerialNrSensor(coordinator, name, entry_id),
             XToolM1UltraFillLightSensor(coordinator, name, entry_id),
             XToolM1UltraSmokingFanLevelSensor(coordinator, name, entry_id),
-            XToolM1UltraRawStatusSensor(coordinator, name, entry_id),
         ]
 
     async_add_entities(entities, True)
@@ -156,7 +155,7 @@ class XToolWorkStateSensor(_XToolBaseSensor):
 
         }
 
-        return mapping.get(mode, mode) if mode else "Unknown"
+        return mapping.get(mode, mode) if mode else f"Unknown {mode}"
 
 
 # ----- M1 extra sensors -----
@@ -657,23 +656,3 @@ class XToolM1UltraFillLightSensor(_M1UltraBaseMeasurement):
         # Convert 0-255 to 0-100%
         return round((brightness / 255) * 100)
 
-
-class XToolM1UltraRawStatusSensor(_M1UltraBase):
-    _attr_icon = "mdi:identifier"
-
-    def __init__(self, coordinator: XToolCoordinator, name: str, entry_id: str) -> None:
-        super().__init__(coordinator, name, entry_id)
-        self._attr_name = "Raw Status"
-        self._attr_unique_id = f"{entry_id}_raw_status"
-
-    @property
-    def suggested_object_id(self) -> str:
-        return f"{self.coordinator.device_type}_raw_status"
-    @property
-    def native_value(self) -> Any:
-        data = self.coordinator.data or {}
-        if data.get("_unavailable") or not data.get("runningStatus"):
-            return None
-        mode = str(data["runningStatus"]["curMode"].get("mode", "")).strip().upper()
-        sub_mode = str(data["runningStatus"]["curMode"].get("subMode", "")).strip().upper()
-        return mode + "_" + sub_mode
