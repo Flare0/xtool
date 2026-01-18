@@ -56,10 +56,6 @@ class XToolCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         data: dict[str, Any] = {}
         try:
             if self.device_type == "m1ultra":
-                # Version check - this is also used to confirm device is M1 Ultra
-                version_data = self._fetch_m1ultra_data("/system?action=version_v2")
-                if version_data:
-                    data.update(version_data)
 
                 # Running status
                 running_status_response = self._fetch_m1ultra_data("/device/runningStatus")
