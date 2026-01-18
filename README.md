@@ -18,6 +18,7 @@ This is a **custom integration for Home Assistant** that connects and monitors *
     - `sensor.<name>_m1_cpu_temp`
     - `sensor.<name>_m1_water_temp`
     - `sensor.<name>_m1_purifier`
+  - **M1 Ultra** adds plenty of sensors, see M1 Ultra section.
 - Typical status values: `Running`, `Done`, `Idle`, `Sleep`, `Ready`, `Probing`, `Unavailable`, `Unknown`
 
 ---
@@ -59,6 +60,7 @@ Entity IDs are automatically generated using the **Name** and **Device Type** yo
 | Name: `Laser1`, Type: `F1` | `binary_sensor.laser1_f1_power`<br>`sensor.laser1_f1_status` |
 | Name: `Laser2`, Type: `P2` | `binary_sensor.laser2_p2_power`<br>`sensor.laser2_p2_status` |
 | Name: `Studio`, Type: `M1` | `sensor.studio_m1_status`<br>`sensor.studio_m1_cpu_temp`<br>`sensor.studio_m1_water_temp`<br>`sensor.studio_m1_purifier` |
+| Name: `Studio`, Type: `M1 Ultra` | `binary_sensor.studio_m1ultra_baseplate`<br>`sensor.studio_m1ultra_basic_carriage`<br>`button.studio_m1ultra_sync_multi_function_module`<br>`switch.studio_m1ultra_exhaust_fan_switch` |
 
 ---
 
@@ -72,9 +74,9 @@ Entity IDs are automatically generated using the **Name** and **Device Type** yo
 | `Sleep` | The device is in sleep mode | `All` |
 | `Ready` | Machine ready for work | `M1` `M1 Ultra` |
 | `Probing` | Auto Measure or Marking | `M1 Ultra` |
-| `Unavailable` | Device offline or unreachable |  |
-| `Unknown` | Unknown or invalid response |  |
-
+| `Unavailable` | Device offline or unreachable | `All` |
+| `Unknown <status>` | Unknown status | `M1 Ultra` |
+| `Unknown` | Unknown or invalid response | `All` |
 ---
 
 ## 🤖 Example Automations
@@ -174,7 +176,7 @@ entities:
   - entity: binary_sensor.devicename_m1ultra_multi_function_carriage_lock
   - entity: sensor.devicename_m1ultra_multi_function_module_tool
   - entity: binary_sensor.devicename_m1ultra_ink_module_cable
-  - entity: button.devicename_sync_multi_function_module
+  - entity: button.devicename_m1ultra_sync_multi_function_module
   - type: section
     label: Accessories
   - entity: binary_sensor.devicename_m1ultra_electrostatic_mat
@@ -217,17 +219,19 @@ entities:
   - entity: sensor.devicename_m1ultra_cpu_temp
   - entity: sensor.devicename_m1ultra_z_ntc_temp
 title: XTool M1 Ultra
+
 ```
 
 Replace "devicename" with the name of your device.
 
 
-
 ### Missing for M1 Ultra
-- Some info for External Purifier
-- RA2 states, Seems to not monitor if plugged in or not
-- Workhead ID for 20W Laser
+Unassigned tools will report `Unknown <tool ID>`
+Known missing tool is 20W Laser. 
 
+Unassigned statuses will report `Unknown <mode>`
+
+Please report any missing tools and statuses so they can be added.
 
 
 ## Support My Work

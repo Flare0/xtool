@@ -155,7 +155,7 @@ class XToolWorkStateSensor(_XToolBaseSensor):
 
         }
 
-        return mapping.get(mode, mode) if mode else f"Unknown {mode}" # Return Unknown with mode if not mapped
+        return mapping.get(mode, f"Unknown {mode}")  # Return Unknown with mode if not mapped
 
 
 # ----- M1 extra sensors -----
