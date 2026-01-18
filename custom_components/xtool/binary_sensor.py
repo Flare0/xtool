@@ -44,10 +44,12 @@ async def async_setup_entry(
             XToolM1UltraAdsorptionMatStaticBinarySensor(coordinator, name, entry_id),
             XToolM1UltraDoorBinarySensor(coordinator, name, entry_id),
             XToolM1UltraAirassistStateBinarySensor(coordinator, name, entry_id),
-            XToolM1UltraExtPurifierStateBinarySensor(coordinator, name, entry_id),
+            XToolM1UltraExtPurifierPlugBinarySensor(coordinator, name, entry_id),
             XToolM1UltraSmokingFanStateSensor(coordinator, name, entry_id),
             XToolM1UltraSmokingFanPlugSensor(coordinator, name, entry_id),
             XToolM1UltraDrivedLockBinarySensor(coordinator, name, entry_id),
+            XToolM1UltraExtPurifierStateBinarySensor(coordinator, name, entry_id),
+
         ]
 
     async_add_entities(entities, True)
@@ -301,7 +303,7 @@ class XToolM1UltraAirassistStateBinarySensor(_M1UltraBinarySensorBase):
         return bool(data["airassist"].get("state") == "on")  # "on" means plugged in
    
 
-class XToolM1UltraExtPurifierStateBinarySensor(_M1UltraBinarySensorBase):
+class XToolM1UltraExtPurifierPlugBinarySensor(_M1UltraBinarySensorBase):
     _attr_device_class = BinarySensorDeviceClass.PLUG
     _attr_icon = "mdi:air-purifier"
 
@@ -320,7 +322,28 @@ class XToolM1UltraExtPurifierStateBinarySensor(_M1UltraBinarySensorBase):
         if data.get("_unavailable") or not data.get("ext_purifier"):
             return False
         return bool(data["ext_purifier"].get("state") == "on")  # "on" means plugged in
-   
+
+class XToolM1UltraExtPurifierStateBinarySensor(_M1UltraBinarySensorBase):
+    _attr_device_class = BinarySensorDeviceClass.POWER
+    _attr_icon = "mdi:power"
+
+    def __init__(self, coordinator: XToolCoordinator, name: str, entry_id: str) -> None:
+        super().__init__(coordinator, name, entry_id)
+        self._attr_name = "External Purifier"
+        self._attr_unique_id = f"{entry_id}_external_purifier_state"
+
+    @property
+    def suggested_object_id(self) -> str:
+        return f"{self.coordinator.device_type}_external_purifier_state"
+    @property
+    def is_on(self) -> bool:
+        data = self.coordinator.data or {}
+        if data.get("_unavailable") or not data.get("ext_purifier"):
+            return False
+        if data["ext_purifier"].get("state") == "on":
+            return bool(data["ext_purifier"].get("enSta") == True)  # Assume it is similar to adsorption mat's state enSta
+        return False
+
 class XToolM1UltraSmokingFanStateSensor(_M1UltraBinarySensorBase):
     _attr_device_class = BinarySensorDeviceClass.POWER
     _attr_icon = "mdi:fan"
@@ -384,4 +407,3 @@ class XToolM1UltraDrivedLockBinarySensor(_M1UltraBinarySensorBase):
         if data.get("_unavailable") or not data.get("workhead_ID"):
             return False
         return bool(data["workhead_ID"].get("drivingLock") == 0)  # 1 is locked, but SensorDeviceClass.LOCK assumes 1 means unlocked
-    

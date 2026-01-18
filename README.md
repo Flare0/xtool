@@ -1,6 +1,6 @@
 # XTool Home Assistant Integration
 
-This is a **custom integration for Home Assistant** that connects and monitors **xTool laser engravers** such as **P2**, **F1**, **M1**, and **Apparel**.
+This is a **custom integration for Home Assistant** that connects and monitors **xTool laser engravers** such as **P2**, **F1**, **M1**, **M1 Ultra**, and **Apparel**.
 
 > ⚠️ This integration is an independent community project.  
 > I am **not affiliated with xTool** or its employees — but I’d love to collaborate with the xTool team for further testing 😉.
@@ -187,8 +187,11 @@ entities:
   - entity: binary_sensor.devicename_m1ultra_exhaust_fan_state
   - entity: sensor.devicename_m1ultra_exhaust_fan_level
   - entity: sensor.devicename_m1ultra_exhaust_fan_current
+  - entity: switch.devicename_m1ultra_exhaust_fan_switch
   - type: divider
   - entity: binary_sensor.devicename_m1ultra_external_purifier
+  - entity: binary_sensor.devicename_m1ultra_external_purifier_state
+  - entity: sensor.devicename_m1ultra_external_purifier_current
   - type: divider
   - entity: binary_sensor.devicename_m1ultra_air_assist
   - entity: sensor.devicename_m1ultra_airassist_level

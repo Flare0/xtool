@@ -90,7 +90,7 @@ class XToolCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 if drawer_response and drawer_response.get("code") == 0:
                     data.update({"drawer": drawer_response.get("data")})
 
-                smoking_fan_response = self._fetch_m1ultra_data("/peripheral/smoking_fan")
+                smoking_fan_response = self._fetch_m1ultra_data("/peripheral/smoking_fan", "POST", {"action": "get"})
                 if smoking_fan_response and smoking_fan_response.get("code") == 0:
                     data.update({"smoking_fan": smoking_fan_response.get("data")})
 

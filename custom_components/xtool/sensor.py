@@ -59,6 +59,7 @@ async def async_setup_entry(
             XToolM1UltraSerialNrSensor(coordinator, name, entry_id),
             XToolM1UltraFillLightSensor(coordinator, name, entry_id),
             XToolM1UltraSmokingFanLevelSensor(coordinator, name, entry_id),
+            XToolM1UltraExtPurifierCurrentSensor(coordinator, name, entry_id),
         ]
 
     async_add_entities(entities, True)
@@ -447,7 +448,7 @@ class XToolM1UltraWorkingInfoTimeModeWorkingSensor(_M1UltraBaseMeasurement):
 
 
 class XToolM1UltraSmokingFanCurrentSensor(_M1UltraBaseMeasurement):
-    _attr_icon = "mdi:current-ac"
+    _attr_icon = "mdi:current-dc"
     _attr_device_class = SensorDeviceClass.CURRENT
     _attr_native_unit_of_measurement = UnitOfElectricCurrent.MILLIAMPERE
 
@@ -483,7 +484,7 @@ class XToolM1UltraSmokingFanLevelSensor(_M1UltraBaseMeasurement):
         if data.get("_unavailable") or not data.get("smoking_fan"):
             return None
         level = data["smoking_fan"].get("current")
-        mapping = {
+        mapping = {     # Actual current values sent when setting levels in xTool Studio
             0: 0,
             105: 1,
             150: 2,
@@ -656,3 +657,24 @@ class XToolM1UltraFillLightSensor(_M1UltraBaseMeasurement):
         # Convert 0-255 to 0-100%
         return round((brightness / 255) * 100)
 
+
+class XToolM1UltraExtPurifierCurrentSensor(_M1UltraBaseMeasurement):
+    _attr_icon = "mdi:current-ac"
+    _attr_device_class = SensorDeviceClass.CURRENT
+    _attr_native_unit_of_measurement = UnitOfElectricCurrent.MILLIAMPERE
+
+    def __init__(self, coordinator: XToolCoordinator, name: str, entry_id: str) -> None:
+        super().__init__(coordinator, name, entry_id)
+        self._attr_name = "External Purifier Current"
+        self._attr_unique_id = f"{entry_id}_external_purifier_current"
+
+    @property
+    def suggested_object_id(self) -> str:
+        return f"{self.coordinator.device_type}_external_purifier_current"
+    @property
+    def native_value(self) -> Any:
+        data = self.coordinator.data or {}
+        if data.get("_unavailable") or not data.get("ext_purifier"):
+            return None
+        return data["ext_purifier"].get("current")
+    
