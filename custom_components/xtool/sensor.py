@@ -119,14 +119,13 @@ class XToolWorkStateSensor(_XToolBaseSensor):
             return "Unknown"
 
         if self.coordinator.device_type == "m1ultra":
-            if data.get("runningStatus") and data["runningStatus"].get("curMode"):
-                mode = str(data["runningStatus"]["curMode"].get("mode", "")).strip().upper()
-                sub_mode = str(data["runningStatus"]["curMode"].get("subMode", "")).strip().upper()
-                if sub_mode:
-                    return self._map_m1ultra_mode(mode + "_" + sub_mode)
-                else:
-                    return self._map_m1ultra_mode(mode)
-            return "Unknown"
+            mode = str(data["runningStatus"]["curMode"].get("mode", "")).strip().upper()
+            sub_mode = str(data["runningStatus"]["curMode"].get("subMode", "")).strip().upper()
+            if sub_mode:
+                return self._map_m1ultra_mode(mode + "_" + sub_mode)
+            else:
+                return self._map_m1ultra_mode(mode)
+            
 
         return "Unknown"
 
@@ -145,7 +144,7 @@ class XToolWorkStateSensor(_XToolBaseSensor):
         return mapping.get(status, "Unknown")
 
     def _map_m1ultra_mode(self, mode: str) -> str:
-        # M1 Ultra modes based on the provided data
+        # M1 Ultra modes and sub-modes
         mapping = {
             "P_IDLE": "Idle",
             "P_MEASURE": "Probing",
@@ -156,7 +155,7 @@ class XToolWorkStateSensor(_XToolBaseSensor):
 
         }
 
-        return mapping.get(mode, mode) if mode else f"Unknown {mode}"
+        return mapping.get(mode, mode) if mode else f"Unknown {mode}" # Return Unknown with mode if not mapped
 
 
 # ----- M1 extra sensors -----

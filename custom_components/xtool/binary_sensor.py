@@ -305,7 +305,7 @@ class XToolM1UltraAirassistStateBinarySensor(_M1UltraBinarySensorBase):
 
 class XToolM1UltraExtPurifierPlugBinarySensor(_M1UltraBinarySensorBase):
     _attr_device_class = BinarySensorDeviceClass.PLUG
-    _attr_icon = "mdi:air-purifier"
+    _attr_icon = "mdi:power"
 
 
     def __init__(self, coordinator: XToolCoordinator, name: str, entry_id: str) -> None:
@@ -325,7 +325,7 @@ class XToolM1UltraExtPurifierPlugBinarySensor(_M1UltraBinarySensorBase):
 
 class XToolM1UltraExtPurifierStateBinarySensor(_M1UltraBinarySensorBase):
     _attr_device_class = BinarySensorDeviceClass.POWER
-    _attr_icon = "mdi:power"
+    _attr_icon = "mdi:air-purifier"
 
     def __init__(self, coordinator: XToolCoordinator, name: str, entry_id: str) -> None:
         super().__init__(coordinator, name, entry_id)
