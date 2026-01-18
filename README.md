@@ -1,6 +1,6 @@
 # XTool Home Assistant Integration
 
-This is a **custom integration for Home Assistant** that connects and monitors **xTool laser engravers** such as **P2**, **F1**, **M1**, and **Apparel**.
+This is a **custom integration for Home Assistant** that connects and monitors **xTool laser engravers** such as **P2**, **F1**, **M1**, **M1 Ultra**, and **Apparel**.
 
 > ⚠️ This integration is an independent community project.  
 > I am **not affiliated with xTool** or its employees — but I’d love to collaborate with the xTool team for further testing 😉.
@@ -18,7 +18,8 @@ This is a **custom integration for Home Assistant** that connects and monitors *
     - `sensor.<name>_m1_cpu_temp`
     - `sensor.<name>_m1_water_temp`
     - `sensor.<name>_m1_purifier`
-- Typical status values: `Running`, `Done`, `Idle`, `Sleep`, `Ready`, `Unavailable`, `Unknown`
+  - **M1 Ultra** adds plenty of sensors, see M1 Ultra section.
+- Typical status values: `Running`, `Done`, `Idle`, `Sleep`, `Ready`, `Probing`, `Unavailable`, `Unknown`
 
 ---
 
@@ -43,7 +44,7 @@ This is a **custom integration for Home Assistant** that connects and monitors *
 3. Enter:
    - **Name** → freely chosen (e.g. `Laser1`)
    - **IP Address** → IP of your xTool device
-   - **Device Type** → choose between `P2`, `F1`, `M1`, or `Apparel`
+   - **Device Type** → choose between `P2`, `F1`, `M1`,`M1 Ultra`, or `Apparel`
 4. Confirm — done ✅  
 
 Each device automatically creates the appropriate entities in Home Assistant based on its **`name`** and **`device_type`**.
@@ -59,21 +60,23 @@ Entity IDs are automatically generated using the **Name** and **Device Type** yo
 | Name: `Laser1`, Type: `F1` | `binary_sensor.laser1_f1_power`<br>`sensor.laser1_f1_status` |
 | Name: `Laser2`, Type: `P2` | `binary_sensor.laser2_p2_power`<br>`sensor.laser2_p2_status` |
 | Name: `Studio`, Type: `M1` | `sensor.studio_m1_status`<br>`sensor.studio_m1_cpu_temp`<br>`sensor.studio_m1_water_temp`<br>`sensor.studio_m1_purifier` |
+| Name: `Studio`, Type: `M1 Ultra` | `binary_sensor.studio_m1ultra_baseplate`<br>`sensor.studio_m1ultra_basic_carriage`<br>`button.studio_m1ultra_sync_multi_function_module`<br>`switch.studio_m1ultra_exhaust_fan_switch` |
 
 ---
 
 ## 💬 Possible Status Values
 
-| Status | Meaning |
-|---------|----------|
-| `Running` | The laser is currently engraving |
-| `Done` | The engraving job is finished |
-| `Idle` | The machine is idle |
-| `Sleep` | The device is in sleep mode |
-| `Ready` | (M1 only) machine ready for work |
-| `Unavailable` | Device offline or unreachable |
-| `Unknown` | Unknown or invalid response |
-
+| Status | Meaning | Device |
+|---------|----------|----------|
+| `Running` | The laser is currently engraving | `All` |
+| `Done` | The engraving job is finished | `P2` `F1` `M1` `Apparel` |
+| `Idle` | The machine is idle | `All` |
+| `Sleep` | The device is in sleep mode | `All` |
+| `Ready` | Machine ready for work | `M1` `M1 Ultra` |
+| `Probing` | Auto Measure or Marking | `M1 Ultra` |
+| `Unavailable` | Device offline or unreachable | `All` |
+| `Unknown <status>` | Unknown status | `M1 Ultra` |
+| `Unknown` | Unknown or invalid response | `All` |
 ---
 
 ## 🤖 Example Automations
@@ -157,6 +160,79 @@ actions:
       media_content_type: "music"
 mode: single
 ```
+
+
+##  M1 Ultra
+### Entities card
+```yaml
+type: entities
+entities:
+  - entity: binary_sensor.devicename_m1ultra_power
+  - entity: sensor.devicename_m1ultra_status
+  - type: section
+    label: Tools
+  - entity: sensor.devicename_m1ultra_basic_carriage
+  - entity: sensor.devicename_m1ultra_multi_function_carriage
+  - entity: binary_sensor.devicename_m1ultra_multi_function_carriage_lock
+  - entity: sensor.devicename_m1ultra_multi_function_module_tool
+  - entity: binary_sensor.devicename_m1ultra_ink_module_cable
+  - entity: button.devicename_m1ultra_sync_multi_function_module
+  - type: section
+    label: Accessories
+  - entity: binary_sensor.devicename_m1ultra_electrostatic_mat
+  - entity: binary_sensor.devicename_m1ultra_electrostatic_mat_static
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_raiser
+  - entity: binary_sensor.devicename_m1ultra_hatch
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_exhaust_fan
+  - entity: binary_sensor.devicename_m1ultra_exhaust_fan_state
+  - entity: sensor.devicename_m1ultra_exhaust_fan_level
+  - entity: sensor.devicename_m1ultra_exhaust_fan_current
+  - entity: switch.devicename_m1ultra_exhaust_fan_switch
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_external_purifier
+  - entity: binary_sensor.devicename_m1ultra_external_purifier_state
+  - entity: sensor.devicename_m1ultra_external_purifier_current
+  - type: divider
+  - entity: binary_sensor.devicename_m1ultra_air_assist
+  - entity: sensor.devicename_m1ultra_airassist_level
+  - type: section
+    label: States
+  - entity: binary_sensor.devicename_m1ultra_baseplate
+  - entity: binary_sensor.devicename_m1ultra_lid
+  - entity: sensor.devicename_m1ultra_fill_light_brightness
+  - entity: binary_sensor.devicename_m1ultra_usb_machine_lock
+  - type: section
+    label: Time
+  - entity: sensor.devicename_m1ultra_operating_times_offline
+  - entity: sensor.devicename_m1ultra_operating_times_online
+  - entity: sensor.devicename_m1ultra_operating_time
+  - entity: sensor.devicename_m1ultra_standby_time
+  - type: section
+    label: Info
+  - entity: sensor.devicename_m1ultra_wifi_ip_address
+  - entity: sensor.devicename_m1ultra_mac_address
+  - entity: sensor.devicename_m1ultra_serial_number
+  - entity: sensor.devicename_m1ultra_position_x
+  - entity: sensor.devicename_m1ultra_position_y
+  - entity: sensor.devicename_m1ultra_cpu_temp
+  - entity: sensor.devicename_m1ultra_z_ntc_temp
+title: XTool M1 Ultra
+
+```
+
+Replace "devicename" with the name of your device.
+
+
+### Missing for M1 Ultra
+Unassigned tools will report `Unknown <tool ID>`
+Known missing tool is 20W Laser. 
+
+Unassigned statuses will report `Unknown <mode>`
+
+Please report any missing tools and statuses so they can be added.
+
 
 ## Support My Work
 If you enjoy my projects or find them useful, consider supporting me on [Ko-fi](https://ko-fi.com/bassxt)!
